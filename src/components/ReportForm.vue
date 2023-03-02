@@ -21,9 +21,9 @@
         v-model="type"
       >
         <option value="">Выберите...</option>
-        <option value="8">Бот/накрутка</option>
-        <option value="10">Бот/спам</option>
-        <option value="12">Бот/троль</option>
+        <option value="8">Бот/Накрутка</option>
+        <option value="10">Бот/Спам</option>
+        <option value="12">Бот/Троль</option>
         <option value="15">Единая Россия</option>
         <option value="20">Мимикрия</option>
         <option value="21">Н/Д</option>

@@ -64,7 +64,7 @@ function getQuery() {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin: 0 auto;
-  max-width: 350px;
+  max-width: 700px;
 }
 
 .logo {
