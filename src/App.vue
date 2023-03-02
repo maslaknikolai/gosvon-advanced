@@ -41,7 +41,7 @@ function getQuery() {
     .split('&')
     .reduce<Record<string, string>>((acc, equalString) => {
       const [name, value = 'true'] = equalString.split('=')
-      acc[name] = value
+      acc[name] = decodeURIComponent(value)
       return acc
     }, {})
 
