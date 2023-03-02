@@ -58,16 +58,24 @@ const error = ref('')
 
 function send() {
   isSending.value = true
-  fetch(`//script.gosvon.net?type=report&token=${props.token}`, {
+  fetch(`//script.gosvon.net?type=report&code=${props.token}&id=${props.userId}`, {
     method: 'POST',
     body: JSON.stringify({
       comment: comment.value
     })
   })
-  .then(r => r.json())
+  .then(r => r.text())
   .then((r) => {
-    if (r.error) {
-      error.value = r.error
+    const parsed = (() => {
+      try {
+        return JSON.parse(r);
+      } catch {
+        return {}
+      }
+    })()
+
+    if (parsed.error) {
+      error.value = parsed.error
     } else {
       isSent.value = true
     }
