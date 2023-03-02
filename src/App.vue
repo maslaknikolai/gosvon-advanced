@@ -1,17 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <button @click="page = 'info'">
+    Info
+  </button>
+
+  <button @click="page = 'report'">
+    Report form
+  </button>
+
+  <UserInfo v-if="page === 'info'" />
+  <ReportForm v-if="page === 'report'" />
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import UserInfo from './components/UserInfo.vue'
+import ReportForm from './components/ReportForm.vue'
+import {ref} from 'vue'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+const page = ref()
 </script>
 
 <style>
