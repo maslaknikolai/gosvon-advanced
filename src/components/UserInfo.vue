@@ -20,7 +20,7 @@ const html = ref('')
 
 function load() {
   isLoading.value = true
-  fetch(`//script.gosvon.net?type=info&code=${props.token}&id=${props.userId}`)
+  fetch(`//script.gosvon.net?t=info&code=${props.token}&id=${props.userId}`)
   .then(r => r.text())
   .then(r => {
     html.value = r

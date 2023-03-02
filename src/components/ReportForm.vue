@@ -61,7 +61,7 @@
         {{ isSending ? 'Отправка...' : 'Отправить' }}
       </button>
 
-      {{ error }}
+      <div>{{ error }}</div>
 
     </div>
   </div>
@@ -87,7 +87,7 @@ const isValid = computed(() => {
 
 function send() {
   isSending.value = true
-  fetch(`//script.gosvon.net?type=report&code=${props.token}&id=${props.userId}`, {
+  fetch(`//script.gosvon.net?t=report&code=${props.token}&id=${props.userId}`, {
     method: 'POST',
     body: JSON.stringify({
       text: comment.value,
