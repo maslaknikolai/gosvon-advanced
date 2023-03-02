@@ -11,7 +11,7 @@
   <ReportForm v-if="page === 'report'" />
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import UserInfo from './components/UserInfo.vue'
 import ReportForm from './components/ReportForm.vue'
 import {ref} from 'vue'
