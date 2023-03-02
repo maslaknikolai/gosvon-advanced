@@ -91,7 +91,7 @@ function send() {
     method: 'POST',
     body: JSON.stringify({
       text: comment.value,
-      t: type.value,
+      type: type.value,
       link: props.replyLink
     })
   })
