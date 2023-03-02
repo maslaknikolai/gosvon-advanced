@@ -17,6 +17,7 @@
     v-show="page === 'report'"
     :userId="userId"
     :token="token"
+    :replyLink="replyLink"
   />
 </template>
 
@@ -31,6 +32,7 @@ const page = ref()
 const {
   userId,
   token,
+  replyLink,
 } = getQuery()
 
 function getQuery() {

@@ -1,5 +1,13 @@
 <template>
   <div class="hello">
+    <a
+      :href="props.replyLink"
+      target="_blank"
+      class="replyLink"
+    >
+      {{ props.replyLink }}
+    </a>
+
     <div
       v-if="isSent"
       class="sent-notification"
@@ -8,6 +16,21 @@
     </div>
 
     <div v-else>
+      <select
+        class="select"
+        v-model="type"
+      >
+        <option value="">Выберите...</option>
+        <option value="8">Бот/накрутка</option>
+        <option value="10">Бот/спам</option>
+        <option value="12">Бот/троль</option>
+        <option value="15">Единая Россия</option>
+        <option value="20">Мимикрия</option>
+        <option value="21">Н/Д</option>
+        <option value="30">Чиновники</option>
+        <option value="31">Бюджетники</option>
+      </select>
+
       <div>
         <textarea
           v-model="comment"
@@ -33,7 +56,7 @@
       <button
         @click="send"
         class="sendBtn"
-        :disabled="isSending"
+        :disabled="isSending || !isValid"
       >
         {{ isSending ? 'Отправка...' : 'Отправить' }}
       </button>
@@ -45,37 +68,37 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 const props = defineProps({
   userId: { type: String, required: true },
-  token: { type: String, required: true }
+  token: { type: String, required: true },
+  replyLink: { type: String, required: true }
 })
 
 const isSent = ref(false)
 const isSending = ref(false)
 const comment = ref('')
+const type = ref('')
 const error = ref('')
+
+const isValid = computed(() => {
+  return comment.value && type.value
+})
 
 function send() {
   isSending.value = true
   fetch(`//script.gosvon.net?type=report&code=${props.token}&id=${props.userId}`, {
     method: 'POST',
     body: JSON.stringify({
-      comment: comment.value
+      text: comment.value,
+      t: type.value,
+      link: props.replyLink
     })
   })
-  .then(r => r.text())
+  .then(r => r.json())
   .then((r) => {
-    const parsed = (() => {
-      try {
-        return JSON.parse(r);
-      } catch {
-        return {}
-      }
-    })()
-
-    if (parsed.error) {
-      error.value = parsed.error
+    if (r.error) {
+      error.value = r.error
     } else {
       isSent.value = true
     }
@@ -94,7 +117,7 @@ function send() {
   height: 110px;
   padding: 10px;
   border-radius: 3px;
-  border: 1px solid #000;
+  border: 1px solid rgba(0,0,0,.3);
 }
 .symbols-rest {
   font-size: 12px;
@@ -110,6 +133,9 @@ function send() {
   color: white;
 
 }
+.sendBtn:disabled {
+  background: #7a7a7a;
+}
 .symbols-rest__medium {
   color: #b18939;
 }
@@ -123,5 +149,18 @@ function send() {
   display: flex;
   width: 100%;
   height: 80px;
+}
+
+.select {
+  display: block;
+  border: 1px solid rgba(0,0,0,.3);
+  padding: 5px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.replyLink {
+  margin-bottom: 5px;
+  display: block;
 }
 </style>
