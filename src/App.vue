@@ -8,6 +8,7 @@
 
   <UserInfo
     v-show="page === 'info'"
+    :page="page"
     :userId="userId"
     :token="token"
   />

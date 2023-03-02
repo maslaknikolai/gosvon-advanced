@@ -1,23 +1,39 @@
 <template>
   <div>
-    user info
-    {{ userId }}
+    {{ isLoading ? 'Загрузка...' : '' }}
 
-    <iframe
-      :src="`https://script.gosvon.net/?code=${token}&t=info&id=${userId}`"
-      width="100%"
-      height="320px"
-      frameBorder="0"
-      seamless
-    ></iframe>
+    <div :innerHTML="html"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-// eslint-disable-next-line
-defineProps({
+import { ref, watch } from 'vue';
+
+const props = defineProps({
+  page: { type: String, required: true },
   userId: { type: String, required: true },
   token: { type: String, required: true }
+})
+
+const isLoading = ref(false)
+const html = ref('')
+
+function load() {
+  isLoading.value = true
+  fetch(`//script.gosvon.net?type=info&code=${props.token}&id=${props.userId}`)
+  .then(r => r.text())
+  .then(r => {
+    html.value = r
+  })
+  .finally(() => {
+    isLoading.value = false
+  })
+}
+
+watch(() => props.page, () => {
+  if (!isLoading.value && !html.value && props.page === 'info') {
+    load()
+  }
 })
 </script>
 
