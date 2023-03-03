@@ -26,27 +26,25 @@ import UserInfo from './components/UserInfo.vue'
 import ReportForm from './components/ReportForm.vue'
 import {ref} from 'vue'
 import MainTabs from './components/MainTabs.vue';
+import {getQuery} from './utils/getQuery';
+
+
+const query = getQuery()
 
 const page = ref()
+const userId = ref(query.userId || '')
+const token = ref(query.token || '')
+const replyLink = ref(query.replyLink || '')
 
-const {
-  userId,
-  token,
-  replyLink,
-} = getQuery()
+window.addEventListener('message', (event) => {
+  page.value = ''
 
-function getQuery() {
-  const search = document.location.search
-    .substring(1)
-    .split('&')
-    .reduce<Record<string, string>>((acc, equalString) => {
-      const [name, value = 'true'] = equalString.split('=')
-      acc[name] = decodeURIComponent(value)
-      return acc
-    }, {})
+  const data = JSON.parse(event.data)
 
-  return search
-}
+  userId.value = data.userId
+  token.value = data.token
+  replyLink.value = data.replyLink
+})
 </script>
 
 <style>

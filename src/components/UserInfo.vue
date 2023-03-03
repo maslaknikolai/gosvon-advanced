@@ -2,7 +2,10 @@
   <div>
     {{ isLoading ? 'Загрузка...' : '' }}
 
-    <div :innerHTML="html"></div>
+    <div
+      v-if="!isLoading"
+      :innerHTML="html"
+    ></div>
   </div>
 </template>
 
@@ -18,9 +21,9 @@ const props = defineProps({
 const isLoading = ref(false)
 const html = ref('')
 
-function load() {
+function loadInfo() {
   isLoading.value = true
-  fetch(`//script.gosvon.net?t=info&code=${props.token}&id=${props.userId}`)
+  return fetch(`//script.gosvon.net?t=info&code=${props.token}&id=${props.userId}`)
   .then(r => r.text())
   .then(r => {
     html.value = r
@@ -30,11 +33,23 @@ function load() {
   })
 }
 
-watch(() => props.page, () => {
-  if (!isLoading.value && !html.value && props.page === 'info') {
-    load()
+const lastFetchedForUserId = ref('')
+async function loadIfNeeded() {
+  if (props.page !== 'info') {
+    return
   }
-})
+
+  if (lastFetchedForUserId.value === props.userId) {
+    return
+  }
+
+  await loadInfo()
+  lastFetchedForUserId.value = props.userId
+}
+
+
+watch(() => props.page, loadIfNeeded)
+watch(() => props.userId, loadIfNeeded)
 </script>
 
 <style scoped>
