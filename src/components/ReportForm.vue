@@ -61,14 +61,16 @@
         {{ isSending ? 'Отправка...' : 'Отправить' }}
       </button>
 
-      <div>{{ error }}</div>
+      <div class="error">
+        {{ error }}
+      </div>
 
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 const props = defineProps({
   userId: { type: String, required: true },
   token: { type: String, required: true },
@@ -77,9 +79,14 @@ const props = defineProps({
 
 const isSent = ref(false)
 const isSending = ref(false)
-const comment = ref('')
+const comment = ref(localStorage.reportFormLastComment || '')
 const type = ref('')
 const error = ref('')
+
+watch(
+  () => comment.value,
+  (newValue) => localStorage.reportFormLastComment = newValue,
+)
 
 const isValid = computed(() => {
   return comment.value && type.value
@@ -101,6 +108,7 @@ function send() {
       error.value = r.error
     } else {
       isSent.value = true
+      localStorage.reportFormLastComment = ''
     }
   })
   .finally(() => {
@@ -131,7 +139,7 @@ function send() {
   margin-top: 10px;
   margin-right: 10px;
   color: white;
-
+  cursor: pointer;
 }
 .sendBtn:disabled {
   background: #7a7a7a;
@@ -162,5 +170,9 @@ function send() {
 .replyLink {
   margin-bottom: 5px;
   display: block;
+}
+
+.error {
+  color: red;
 }
 </style>

@@ -7,14 +7,15 @@
   <MainTabs v-model="page"  />
 
   <UserInfo
-    v-show="page === 'info'"
-    :page="page"
+    v-if="page === 'info'"
+    :infoHtml="infoHtml"
     :userId="userId"
     :token="token"
+    @fetched="infoHtml = $event"
   />
 
   <ReportForm
-    v-show="page === 'report'"
+    v-if="page === 'report'"
     :userId="userId"
     :token="token"
     :replyLink="replyLink"
@@ -36,8 +37,11 @@ const userId = ref(query.userId || '')
 const token = ref(query.token || '')
 const replyLink = ref(query.replyLink || '')
 
+const infoHtml = ref('')
+
 window.addEventListener('message', (event) => {
   page.value = ''
+  infoHtml.value = ''
 
   const data = JSON.parse(event.data)
 

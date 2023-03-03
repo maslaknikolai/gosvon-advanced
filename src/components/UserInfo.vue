@@ -4,52 +4,41 @@
 
     <div
       v-if="!isLoading"
-      :innerHTML="html"
+      :innerHTML="props.infoHtml"
     ></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const props = defineProps({
-  page: { type: String, required: true },
+  infoHtml: { type: String, required: true },
   userId: { type: String, required: true },
   token: { type: String, required: true }
 })
 
+const emit = defineEmits(['fetched'])
+
 const isLoading = ref(false)
-const html = ref('')
 
 function loadInfo() {
+  if (props.infoHtml) {
+    return
+  }
+
   isLoading.value = true
   return fetch(`//script.gosvon.net?t=info&code=${props.token}&id=${props.userId}`)
   .then(r => r.text())
   .then(r => {
-    html.value = r
+    emit('fetched', r)
   })
   .finally(() => {
     isLoading.value = false
   })
 }
 
-const lastFetchedForUserId = ref('')
-async function loadIfNeeded() {
-  if (props.page !== 'info') {
-    return
-  }
-
-  if (lastFetchedForUserId.value === props.userId) {
-    return
-  }
-
-  await loadInfo()
-  lastFetchedForUserId.value = props.userId
-}
-
-
-watch(() => props.page, loadIfNeeded)
-watch(() => props.userId, loadIfNeeded)
+onMounted(loadInfo)
 </script>
 
 <style scoped>
