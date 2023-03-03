@@ -1,9 +1,16 @@
 <template>
-  <img
-    src="@/assets/logo.jpg"
-    width="30"
-    class="logo"
-  >
+  <div class="header">
+    <img
+      src="@/assets/logo.jpg"
+      width="30"
+      class="logo"
+    >
+
+    <div class="user">
+      id{{ userId }}, {{ userName }}
+    </div>
+  </div>
+
   <MainTabs v-model="page"  />
 
   <UserInfo
@@ -34,6 +41,7 @@ const query = getQuery()
 
 const page = ref()
 const userId = ref(query.userId || '')
+const userName = ref(query.userName || '')
 const token = ref(query.token || '')
 const replyLink = ref(query.replyLink || '')
 
@@ -48,6 +56,7 @@ window.addEventListener('message', (event) => {
   userId.value = data.userId
   token.value = data.token
   replyLink.value = data.replyLink
+  userName.value = data.userName
 })
 </script>
 
@@ -69,7 +78,19 @@ window.addEventListener('message', (event) => {
   max-width: 700px;
 }
 
-.logo {
+.header {
+  display: flex;
+  align-items: center;
   margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.logo {
+  margin-right: 10px;
+}
+
+.user {
+  font-weight: bold;
+  font-size: 14px;
 }
 </style>
