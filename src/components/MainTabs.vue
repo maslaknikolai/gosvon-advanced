@@ -32,35 +32,40 @@ const emit = defineEmits(['update:modelValue'])
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .tabs {
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .tab {
-  width: 100%;
-  height: 50px;
+  padding: 5px 10px;
   display: block;
   border-radius: 0;
-  border: 0;
+  border: 1px solid transparent;
   border-bottom: 2px solid #00000045;
+  border-radius: 10px;
   cursor: pointer;
   transition: all .3s;
-  margin-bottom: 20px;
-  border-right: 1px solid #0000001c;
+  margin-bottom: 5px;
+  background: #fff;
+  margin-right: 5px;
+  font-weight: bold;
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  &:hover {
+    background: #cecece;
+  }
+
+  &.active {
+    background: var(--primary-color);
+    color: #fff;
+    border-bottom: 0;
+    cursor: default;
+  }
 }
 
-.tab:hover {
-  background: rgba(0,0,0,0.1);
-}
-
-.tab:last-child {
-  border-right: 0;
-}
-
-.tab.active {
-  border-bottom: 2px solid #659ced;
-}
 </style>

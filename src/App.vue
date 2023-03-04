@@ -44,7 +44,10 @@ window.addEventListener('message', (event) => {
 
   <MainTabs v-model="page"  />
 
-  <div class="content">
+  <div
+    v-if="page"
+    class="content"
+  >
     <UserInfo
       v-if="page === 'info'"
       :infoHtml="infoHtml"
@@ -71,6 +74,10 @@ window.addEventListener('message', (event) => {
   box-sizing: border-box;
 }
 
+:root {
+  --primary-color: #659ced;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -84,6 +91,9 @@ window.addEventListener('message', (event) => {
   display: flex;
   align-items: center;
   margin-top: 10px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
   margin-bottom: 5px;
   padding-left: 10px;
 }
@@ -98,6 +108,8 @@ window.addEventListener('message', (event) => {
 }
 
 .content {
-  padding: 0 10px 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff;
 }
 </style>
