@@ -165,6 +165,8 @@ function send() {
   padding: 5px;
   width: 100%;
   margin-bottom: 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,.3);
 }
 
 .replyLink {

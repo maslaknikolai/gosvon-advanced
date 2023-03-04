@@ -109,6 +109,8 @@ window.addEventListener('message', (event) => {
 
 .content {
   padding: 10px;
+  overflow-y: auto;
+  height: 260px;
   border-radius: 10px;
   background: #fff;
 }
