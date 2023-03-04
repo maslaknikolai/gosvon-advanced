@@ -1,8 +1,8 @@
 <template>
   <div class="header">
     <img
-      src="@/assets/logo.jpg"
-      width="30"
+      src="@/assets/logo.png"
+      width="40"
       class="logo"
     >
 
@@ -13,20 +13,22 @@
 
   <MainTabs v-model="page"  />
 
-  <UserInfo
-    v-if="page === 'info'"
-    :infoHtml="infoHtml"
-    :userId="userId"
-    :token="token"
-    @fetched="infoHtml = $event"
-  />
+  <div class="content">
+    <UserInfo
+      v-if="page === 'info'"
+      :infoHtml="infoHtml"
+      :userId="userId"
+      :token="token"
+      @fetched="infoHtml = $event"
+    />
 
-  <ReportForm
-    v-if="page === 'report'"
-    :userId="userId"
-    :token="token"
-    :replyLink="replyLink"
-  />
+    <ReportForm
+      v-if="page === 'report'"
+      :userId="userId"
+      :token="token"
+      :replyLink="replyLink"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -83,6 +85,7 @@ window.addEventListener('message', (event) => {
   align-items: center;
   margin-top: 10px;
   margin-bottom: 5px;
+  padding-left: 10px;
 }
 
 .logo {
@@ -92,5 +95,9 @@ window.addEventListener('message', (event) => {
 .user {
   font-weight: bold;
   font-size: 14px;
+}
+
+.content {
+  padding: 0 10px;
 }
 </style>

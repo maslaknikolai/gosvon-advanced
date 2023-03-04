@@ -30,7 +30,6 @@ defineProps({
   modelValue: { type: String, required: true },
 })
 
-// eslint-disable-next-line
 const emit = defineEmits(['update:modelValue'])
 </script>
 
@@ -46,13 +45,12 @@ const emit = defineEmits(['update:modelValue'])
   height: 50px;
   display: block;
   border-radius: 0;
-  background: rgba(0,0,0,0.05);
   border: 0;
   border-bottom: 2px solid #00000045;
   cursor: pointer;
   transition: all .3s;
   margin-bottom: 20px;
-  border-right: 1px solid #00000045;
+  border-right: 1px solid #0000001c;
 }
 
 .tab:hover {
