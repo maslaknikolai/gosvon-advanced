@@ -140,6 +140,7 @@ function send() {
   margin-right: 10px;
   color: white;
   cursor: pointer;
+  font-weight: bold;
 }
 .sendBtn:disabled {
   background: #7a7a7a;
