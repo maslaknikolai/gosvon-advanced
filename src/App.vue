@@ -98,6 +98,6 @@ window.addEventListener('message', (event) => {
 }
 
 .content {
-  padding: 0 10px;
+  padding: 0 10px 10px;
 }
 </style>
