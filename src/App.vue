@@ -1,3 +1,34 @@
+<script lang="ts" setup>
+import UserInfo from './components/UserInfo.vue'
+import ReportForm from './components/ReportForm.vue'
+import {ref} from 'vue'
+import MainTabs from './components/MainTabs.vue';
+import {getQuery} from './utils/getQuery';
+
+
+const query = getQuery()
+
+const page = ref()
+const userId = ref(query.userId || '')
+const userName = ref(query.userName || '')
+const token = ref(query.token || '')
+const replyLink = ref(query.replyLink || '')
+
+const infoHtml = ref('')
+
+window.addEventListener('message', (event) => {
+  page.value = ''
+  infoHtml.value = ''
+
+  const data = JSON.parse(event.data)
+
+  userId.value = data.userId
+  token.value = data.token
+  replyLink.value = data.replyLink
+  userName.value = data.userName
+})
+</script>
+
 <template>
   <div class="header">
     <img
@@ -30,37 +61,6 @@
     />
   </div>
 </template>
-
-<script lang="ts" setup>
-import UserInfo from './components/UserInfo.vue'
-import ReportForm from './components/ReportForm.vue'
-import {ref} from 'vue'
-import MainTabs from './components/MainTabs.vue';
-import {getQuery} from './utils/getQuery';
-
-
-const query = getQuery()
-
-const page = ref()
-const userId = ref(query.userId || '')
-const userName = ref(query.userName || '')
-const token = ref(query.token || '')
-const replyLink = ref(query.replyLink || '')
-
-const infoHtml = ref('')
-
-window.addEventListener('message', (event) => {
-  page.value = ''
-  infoHtml.value = ''
-
-  const data = JSON.parse(event.data)
-
-  userId.value = data.userId
-  token.value = data.token
-  replyLink.value = data.replyLink
-  userName.value = data.userName
-})
-</script>
 
 <style>
 * {

@@ -1,3 +1,51 @@
+<script lang="ts" setup>
+import { computed, ref, watch } from 'vue';
+const props = defineProps({
+  userId: { type: String, required: true },
+  token: { type: String, required: true },
+  replyLink: { type: String, required: true }
+})
+
+const isSent = ref(false)
+const isSending = ref(false)
+const comment = ref(localStorage.reportFormLastComment || '')
+const type = ref('')
+const error = ref('')
+
+watch(
+  () => comment.value,
+  (newValue) => localStorage.reportFormLastComment = newValue,
+)
+
+const isValid = computed(() => {
+  return comment.value && type.value
+})
+
+function send() {
+  isSending.value = true
+  fetch(`//script.gosvon.net?t=report&code=${props.token}&id=${props.userId}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      text: comment.value,
+      type: type.value,
+      link: props.replyLink
+    })
+  })
+  .then(r => r.json())
+  .then((r) => {
+    if (r.error) {
+      error.value = r.error
+    } else {
+      isSent.value = true
+      localStorage.reportFormLastComment = ''
+    }
+  })
+  .finally(() => {
+    isSending.value = false
+  })
+}
+</script>
+
 <template>
   <div class="hello">
     <a
@@ -68,54 +116,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
-const props = defineProps({
-  userId: { type: String, required: true },
-  token: { type: String, required: true },
-  replyLink: { type: String, required: true }
-})
-
-const isSent = ref(false)
-const isSending = ref(false)
-const comment = ref(localStorage.reportFormLastComment || '')
-const type = ref('')
-const error = ref('')
-
-watch(
-  () => comment.value,
-  (newValue) => localStorage.reportFormLastComment = newValue,
-)
-
-const isValid = computed(() => {
-  return comment.value && type.value
-})
-
-function send() {
-  isSending.value = true
-  fetch(`//script.gosvon.net?t=report&code=${props.token}&id=${props.userId}`, {
-    method: 'POST',
-    body: JSON.stringify({
-      text: comment.value,
-      type: type.value,
-      link: props.replyLink
-    })
-  })
-  .then(r => r.json())
-  .then((r) => {
-    if (r.error) {
-      error.value = r.error
-    } else {
-      isSent.value = true
-      localStorage.reportFormLastComment = ''
-    }
-  })
-  .finally(() => {
-    isSending.value = false
-  })
-}
-</script>
 
 <style scoped>
 .comment {

@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+defineProps({
+  modelValue: { type: String, required: true },
+})
+
+const emit = defineEmits(['update:modelValue'])
+</script>
+
 <template>
   <div class="tabs">
     <button
@@ -23,15 +31,6 @@
     </button>
   </div>
 </template>
-
-<script lang="ts" setup>
-// eslint-disable-next-line
-defineProps({
-  modelValue: { type: String, required: true },
-})
-
-const emit = defineEmits(['update:modelValue'])
-</script>
 
 <style scoped>
 .tabs {

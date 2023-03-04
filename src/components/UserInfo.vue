@@ -1,14 +1,3 @@
-<template>
-  <div>
-    {{ isLoading ? 'Загрузка...' : '' }}
-
-    <div
-      v-if="!isLoading"
-      :innerHTML="props.infoHtml"
-    ></div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 
@@ -40,6 +29,17 @@ function loadInfo() {
 
 onMounted(loadInfo)
 </script>
+
+<template>
+  <div>
+    {{ isLoading ? 'Загрузка...' : '' }}
+
+    <div
+      v-if="!isLoading"
+      :innerHTML="props.infoHtml"
+    ></div>
+  </div>
+</template>
 
 <style scoped>
 
