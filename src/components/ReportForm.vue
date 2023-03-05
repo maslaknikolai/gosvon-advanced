@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
+import { catcher } from '@/utils/catcher';
+
 const props = defineProps({
   userId: { type: String, required: true },
   token: { type: String, required: true },
@@ -9,13 +11,17 @@ const props = defineProps({
 
 const isSent = ref(false)
 const isSending = ref(false)
-const comment = ref(localStorage.reportFormLastComment || '')
+const comment = ref(catcher(() => localStorage.reportFormLastComment) || '')
 const type = ref('')
 const error = ref('')
 
 watch(
   () => comment.value,
-  (newValue) => localStorage.reportFormLastComment = newValue,
+  (newValue) => {
+    catcher(() => {
+      localStorage.reportFormLastComment = newValue
+    })
+  },
 )
 
 const isValid = computed(() => {
@@ -38,7 +44,9 @@ function send() {
       error.value = r.error
     } else {
       isSent.value = true
-      localStorage.reportFormLastComment = ''
+      catcher(() => {
+        localStorage.reportFormLastComment = ''
+      })
     }
   })
   .finally(() => {
