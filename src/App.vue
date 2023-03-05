@@ -90,7 +90,6 @@ window.addEventListener('message', (event) => {
 .header {
   display: flex;
   align-items: center;
-  margin-top: 10px;
   background: #fff;
   border-radius: 10px;
   padding: 10px;
@@ -110,7 +109,7 @@ window.addEventListener('message', (event) => {
 .content {
   padding: 10px;
   overflow-y: auto;
-  height: 260px;
+  height: 270px;
   border-radius: 10px;
   background: #fff;
 }
