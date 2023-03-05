@@ -12,6 +12,7 @@ const page = ref()
 const userId = ref(query.userId || '')
 const userName = ref(query.userName || '')
 const token = ref(query.token || '')
+const tokenLevel = ref(query.tokenLevel ? Number(query.tokenLevel) : 0)
 const replyLink = ref(query.replyLink || '')
 
 const infoHtml = ref('')
@@ -26,6 +27,7 @@ window.addEventListener('message', (event) => {
   token.value = data.token
   replyLink.value = data.replyLink
   userName.value = data.userName
+  tokenLevel.value = data.tokenLevel
 })
 </script>
 
@@ -61,6 +63,7 @@ window.addEventListener('message', (event) => {
       :userId="userId"
       :token="token"
       :replyLink="replyLink"
+      :tokenLevel="tokenLevel"
     />
   </div>
 </template>

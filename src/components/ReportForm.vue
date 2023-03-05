@@ -3,7 +3,8 @@ import { computed, ref, watch } from 'vue';
 const props = defineProps({
   userId: { type: String, required: true },
   token: { type: String, required: true },
-  replyLink: { type: String, required: true }
+  replyLink: { type: String, required: true },
+  tokenLevel: { type: Number, required: true }
 })
 
 const isSent = ref(false)
@@ -47,7 +48,14 @@ function send() {
 </script>
 
 <template>
-  <div class="hello">
+  <div
+    v-if="props.tokenLevel < 2"
+    class="sent-notification"
+  >
+    Необходим уровень доступа >= 2
+  </div>
+
+  <div v-else>
     <a
       :href="props.replyLink"
       target="_blank"
@@ -157,7 +165,7 @@ function send() {
   justify-content: center;
   display: flex;
   width: 100%;
-  height: 80px;
+  height: 100%;
 }
 
 .select {
