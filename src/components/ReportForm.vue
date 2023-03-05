@@ -84,7 +84,7 @@ function send() {
         class="select"
         v-model="type"
       >
-        <option value="">Выберите...</option>
+        <option value="">Выберите подходящую маркировку...</option>
         <option value="8">Бот/Накрутка</option>
         <option value="10">Бот/Спам</option>
         <option value="12">Бот/Троль</option>
