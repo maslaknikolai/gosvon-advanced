@@ -1,8 +1,10 @@
 const open = require('open');
 const { spawn } = require('node:child_process');
 
-function run(cmd, args, checker) {
-  const ls = spawn(cmd, args);
+function run(str, checker) {
+  const [mainCmd, ...args] = str.split(' ')
+
+  const ls = spawn(mainCmd, args);
 
   let resolve = () => {
     console.log('DEFAULT HANDLER');
@@ -34,7 +36,8 @@ function run(cmd, args, checker) {
 }
 
 async function start() {
-  const servePort = await run('yarn', ['serve', 'dist'], msg => {
+  console.log('Starting local server');
+  const servePort = await run(`yarn serve dist`, msg => {
     const match = msg.match(/Accepting connections at http:\/\/localhost:(\d+)/)
 
     if (!match) {
@@ -44,7 +47,10 @@ async function start() {
     return match[1]
   })
 
-  const localtunnelAddress = await run('yarn', ['lt', '--port', servePort], msg => {
+  console.log(`Local server started. http://localhost:${servePort}`);
+  console.log('Starting tunnel');
+
+  const localtunnelAddress = await run(`yarn lt --port ${servePort}`, msg => {
     const match = msg.match(/your url is: (.+)/)
 
     if (!match) {
@@ -55,10 +61,9 @@ async function start() {
   })
 
   open(localtunnelAddress);
-  console.log('serve:', `http://localhost:${servePort}`);
-  console.log('localtunnel:', localtunnelAddress);
+  console.log('Tunnel started', localtunnelAddress);
 
-  run('yarn', ['vite', 'build', '--watch'])
+  run('yarn vite build --watch')
 }
 
 start()
