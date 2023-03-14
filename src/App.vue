@@ -23,6 +23,24 @@ window.addEventListener('message', (event) => {
 
   const data = JSON.parse(event.data)
 
+  const debugLink = Object.entries(data).reduce<string>((acc, [key, value], i) => {
+    if (i === 0) {
+      acc += '?'
+    } else {
+      acc += '&'
+    }
+
+    if (!value) {
+      acc += key
+    } else {
+      acc += `${key}=${encodeURIComponent(String(value))}`
+    }
+
+    return acc
+  }, document.location.href)
+
+  console.log('GosVon Advanced. Данные', debugLink);
+
   userId.value = data.userId
   token.value = data.token
   replyLink.value = data.replyLink
