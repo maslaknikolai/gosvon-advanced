@@ -9,7 +9,7 @@ const props = defineProps({
   tokenLevel: { type: Number, required: true }
 })
 
-const isSent = ref(false)
+const sendingResult = ref('')
 const isSending = ref(false)
 const comment = ref(catcher(() => localStorage.reportFormLastComment) || '')
 const type = ref('')
@@ -43,7 +43,7 @@ function send() {
     if (r.error) {
       error.value = r.error
     } else {
-      isSent.value = true
+      sendingResult.value = r.response.msg
       catcher(() => {
         localStorage.reportFormLastComment = ''
       })
@@ -73,10 +73,10 @@ function send() {
     </a>
 
     <div
-      v-if="isSent"
+      v-if="sendingResult"
       class="sent-notification"
     >
-      Жалоба отправлена.
+      {{ sendingResult }}
     </div>
 
     <div v-else>
